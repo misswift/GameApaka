@@ -11,10 +11,18 @@ class AllCommandsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = .white
 
         // Do any additional setup after loading the view.
     }
     
+    private func getDataFromFile(){
+//        guard let pathToFile = Bundle.main.path(forResource: "data", ofType: "plist")
+//        let dataArray = NSArray(contentsOfFile: pathToFile) else {return}
+//        for  dictionary in dataArray {
+//            let entity = NSEntityDesctription.entity
+//        }
+    }
 
     /*
     // MARK: - Navigation
