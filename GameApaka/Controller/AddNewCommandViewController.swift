@@ -22,8 +22,10 @@ class AddNewCommandViewController: UIViewController, UICollectionViewDelegateFlo
 //    let addNewCommand = AddNewCommand()
 //    let allCommand = AllCommand()
 
-    let menuBar: MenuBar = {
+   lazy var menuBar: MenuBar = {
         let mb = MenuBar()
+    // связываем для организации скролла менюбара
+        mb.addNewCommandViewController = self
         mb.translatesAutoresizingMaskIntoConstraints = false
         return mb
     }()
@@ -36,20 +38,17 @@ class AddNewCommandViewController: UIViewController, UICollectionViewDelegateFlo
         view.backgroundColor = .white
 
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
-        layout.itemSize = CGSize(width: 60, height: 60)
-        layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 0
+//        layout.sectionInset = UIEdgeInsets(top: 50, left: 10, bottom: 10, right: 10)
+        //layout.itemSize = CGSize(width: 60, height: 60)
         myCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         myCollectionView?.backgroundColor = UIColor.white
         view.addSubview(myCollectionView ?? UICollectionView())
         
-        //self.view = view
         myCollectionView?.dataSource = self
         myCollectionView?.delegate = self
         
-        self.navigationItem.title = "КОМАНДЫ"
-        self.view.backgroundColor = .white
+//        self.navigationItem.title = "КОМАНДЫ"
+//        self.view.backgroundColor = .white
         
         myCollectionView?.isPagingEnabled = true
 
@@ -63,20 +62,28 @@ class AddNewCommandViewController: UIViewController, UICollectionViewDelegateFlo
         menuBar.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         menuBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
     }
-    
+   
+    //функция отслеживает тап по менюбару главного экрана
     func scrollToMenuIndex(menuIndex: Int){
         let indexPath = NSIndexPath(item: menuIndex, section: 0)
         myCollectionView?.scrollToItem(at: indexPath as IndexPath, at: .bottom, animated: true)
     }
     
     func setupCollectionView (){
+        if let layout = myCollectionView?.collectionViewLayout  as? UICollectionViewFlowLayout {
+            layout.scrollDirection = .horizontal
+            layout.minimumLineSpacing = 0
+        }
         myCollectionView?.register(AddNewCommand.self, forCellWithReuseIdentifier: "addNewCommandCellID")
         myCollectionView?.register(AllCommand.self, forCellWithReuseIdentifier: "allCommandCellID")
-        myCollectionView?.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
-        myCollectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
     }
     
-
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let index = targetContentOffset.pointee.x / view.frame.width
+        let indexPath = NSIndexPath(item: Int(index), section: 0)
+        menuBar.collectionView.selectItem(at: indexPath as IndexPath, animated: true, scrollPosition: .left)
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         menuBar.horizontalBarLeftAnchorConstraint?.constant = scrollView.contentOffset.x / 2
     }

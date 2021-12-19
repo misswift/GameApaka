@@ -53,13 +53,13 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     
-        let x = CGFloat(indexPath.item * Int(frame.width)/2)
-        horizontalBarLeftAnchorConstraint?.constant = x
-        UIView.animate(withDuration: 0.67) {
-            self.layoutIfNeeded()
-        }
-        addNewCommandViewController?.scrollToMenuIndex(menuIndex: 2)
-        
+//        let x = CGFloat(indexPath.item * Int(frame.width)/2)
+//        horizontalBarLeftAnchorConstraint?.constant = x
+//        UIView.animate(withDuration: 0.67) {
+//            self.layoutIfNeeded()
+//        }
+        // реакция на касания по менюбару
+        addNewCommandViewController?.scrollToMenuIndex(menuIndex: indexPath.item)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -104,21 +104,11 @@ class MenuCell: UICollectionViewCell {
     override var isHighlighted : Bool {
         didSet {
             label.textColor = isHighlighted ?  UIColor(hex: "#EE8C1A") : UIColor(hex:  "#3F5C70")
-            allCommand.isHidden = isHighlighted ?  true : false
-            addNewCommand.isHidden = isHighlighted ?  false : true
-    }
+        }
     }
     override var isSelected : Bool {
         didSet {
             label.textColor = isSelected ?   UIColor(hex: "#EE8C1A") : UIColor(hex: "#3F5C70")
-             isSelected ?  addSubview(addNewCommand) : addSubview(allCommand)
-//            allCommand.heightAnchor.constraint(equalToConstant: 500).isActive = true
-//            allCommand.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-//            allCommand.topAnchor.constraint(equalTo: topAnchor, constant: 150).isActive = true
-
-
-//            allCommand.anchor(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor)
-            
         }
     }
     

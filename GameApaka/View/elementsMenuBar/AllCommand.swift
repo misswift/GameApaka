@@ -9,13 +9,15 @@ import Foundation
 import UIKit
 
 class AllCommand: UICollectionViewCell {
+    
+    var commands: [Commands] = []
         
     private  let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(AllCommandsTableViewCell.self, forCellReuseIdentifier: AllCommandsTableViewCell.identifier)
         //таблица отпускается от верхнего вью
-        tableView.contentInset = UIEdgeInsets(top: 30, left: 0, bottom: 0, right: 0)
-        tableView.scrollIndicatorInsets = UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 80, left: 0, bottom: 0, right: 0)
+        tableView.scrollIndicatorInsets = UIEdgeInsets(top: 80, left: 0, bottom: 0, right: 0)
         return  tableView
     }()
     
@@ -40,7 +42,14 @@ extension AllCommand: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: AllCommandsTableViewCell.identifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: AllCommandsTableViewCell.identifier, for: indexPath) as! AllCommandsTableViewCell
+//        var command = commands[indexPath.row]        
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        tableView.rowHeight = UITableView.automaticDimension
+        return 80.0
+    }
+    
 }
