@@ -50,17 +50,7 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
         horizontalBar.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/2).isActive = true
         horizontalBar.heightAnchor.constraint(equalToConstant: 2).isActive = true
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    
-//        let x = CGFloat(indexPath.item * Int(frame.width)/2)
-//        horizontalBarLeftAnchorConstraint?.constant = x
-//        UIView.animate(withDuration: 0.67) {
-//            self.layoutIfNeeded()
-//        }
-        // реакция на касания по менюбару
-        addNewCommandViewController?.scrollToMenuIndex(menuIndex: indexPath.item)
-    }
+
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 2
@@ -83,11 +73,16 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
         return 0
     }
     
+    // MARK: -   реакция на касания по менюбару
+        
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            addNewCommandViewController?.scrollToMenuIndex(menuIndex: indexPath.item)
+        }
+    
 }
 
 class MenuCell: UICollectionViewCell {
-    let addNewCommand = AddNewCommand()
-    let allCommand = AllCommand()
+  
     let label: UILabel = {
         let lb = UILabel(frame: CGRect(x: 0, y: 0, width: 120, height: 50))
         lb.textColor = UIColor(hex:  "#3F5C70")

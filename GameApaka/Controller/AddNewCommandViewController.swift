@@ -19,8 +19,8 @@ class AddNewCommandViewController: UIViewController, UICollectionViewDelegateFlo
     let addNewCommandCellID = "addNewCommandCellID"
     let allCommandCellID = "allCommandCellID"
 
-//    let addNewCommand = AddNewCommand()
-//    let allCommand = AllCommand()
+    let addNewCommand = AddNewCommand()
+    let allCommand = AllCommand()
 
    lazy var menuBar: MenuBar = {
         let mb = MenuBar()
@@ -30,31 +30,41 @@ class AddNewCommandViewController: UIViewController, UICollectionViewDelegateFlo
         return mb
     }()
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let context = getContext()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .white
-
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-//        layout.sectionInset = UIEdgeInsets(top: 50, left: 10, bottom: 10, right: 10)
-        //layout.itemSize = CGSize(width: 60, height: 60)
-        myCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        myCollectionView?.backgroundColor = UIColor.white
-        view.addSubview(myCollectionView ?? UICollectionView())
-        
-        myCollectionView?.dataSource = self
-        myCollectionView?.delegate = self
-        
-//        self.navigationItem.title = "КОМАНДЫ"
-//        self.view.backgroundColor = .white
-        
-        myCollectionView?.isPagingEnabled = true
-
-        setupView()
         setupCollectionView()
+        setupView()
     }
+    
+    // MARK: - save data in CoreData
+    
+    private func getContext() -> NSManagedObjectContext {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return appDelegate.persistentContainer.viewContext
+    }
+    
+    private func saveCommand (withTitile title: String){
+        let context = getContext()
+        guard let entity = NSEntityDescription.entity(forEntityName: "Command", in: context) else {return}
+        let commandObject = Commands(entity: entity, insertInto: context)
+        if let tfCommandName = addNewCommand.nameCommandTextView.text, let tfTeamName = addNewCommand.nameTextView.text, let tfTeamPhrase =  addNewCommand.phraseTextView.text  {
+            self.saveCommand(withTitile: tfCommandName)
+            commandObject.commandName = tfCommandName
+            commandObject.teamName = tfTeamName
+            commandObject.phrase = tfTeamPhrase
+        }
+        do {
+            try context.save()
+        } catch let error  as Error {
+            print(error.localizedDescription)
+        }
+    }
+    
     
     private func setupView () {
         view.addSubview(menuBar)
@@ -70,6 +80,13 @@ class AddNewCommandViewController: UIViewController, UICollectionViewDelegateFlo
     }
     
     func setupCollectionView (){
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        myCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        view.addSubview(myCollectionView ?? UICollectionView())
+        myCollectionView?.backgroundColor = UIColor.white
+        myCollectionView?.isPagingEnabled = true
+        myCollectionView?.dataSource = self
+        myCollectionView?.delegate = self
         if let layout = myCollectionView?.collectionViewLayout  as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal
             layout.minimumLineSpacing = 0

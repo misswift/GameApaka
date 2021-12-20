@@ -43,7 +43,7 @@ extension AllCommand: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: AllCommandsTableViewCell.identifier, for: indexPath) as! AllCommandsTableViewCell
-//        var command = commands[indexPath.row]        
+        //cell.commandLabel.text = Commands.
         return cell
     }
     

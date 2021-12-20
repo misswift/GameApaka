@@ -87,23 +87,7 @@ class AddNewCommand: UICollectionViewCell {
 //        ageTextView.text = nil
 //    }
     
-    // MARK: - save data in CoreData
-    
-    private func saveTask (withTitile title: String){
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        guard let entity = NSEntityDescription.entity(forEntityName: "Command", in: context) else {return}
-        let commandObject = Commands(entity: entity, insertInto: context)
-        commandObject.commandName = commandLabel.text
-//        commandObject.teamName
-//        commandObject.phrase
-        do {
-            try context.save()
-        } catch let error  as Error {
-            print(error.localizedDescription)
-        }
-    }
-    
+   
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
