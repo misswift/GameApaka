@@ -12,21 +12,18 @@ import CoreData
 @IBDesignable //маска для быстрого просмотра изменений в классе
 
 
+
+
 class AddNewCommand: UICollectionViewCell {
     
    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
     }
     
     override func layoutSubviews() {
         //добавляем наши вью для отображания
-        addSubview(nameTextView)
-        addSubview(phraseTextView)
-        addSubview(commandLabel)
-        addSubview(nameCommandTextView)
-        addSubview(addNewTeamButton)
+        [nameTextView,phraseTextView,commandLabel,nameCommandTextView, addNewTeamButton].forEach {addSubview($0)}
     }
     
     lazy var commandLabel: UILabel  = {
@@ -79,13 +76,13 @@ class AddNewCommand: UICollectionViewCell {
         addBut.frame =  CGRect(x: 25, y: 390, width: 320, height: 50)
         addBut.backgroundColor = #colorLiteral(red: 0.1943593468, green: 0.2369306087, blue: 0.2090644169, alpha: 1)
         addBut.setTitleColor(.white, for: .normal)
+        addBut.addTarget(self, action: #selector(addCommand), for: .touchUpInside)
         return addBut
     }()
     
-//    @objc func deleteCommand(sender: UIButton){
-//        nameTextView.text = nil
-//        ageTextView.text = nil
-//    }
+    @objc func addCommand(){
+     
+    }
     
    
     required init?(coder: NSCoder) {

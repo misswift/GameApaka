@@ -9,10 +9,8 @@ import Foundation
 import UIKit
 
 class AllCommand: UICollectionViewCell {
-    
-    var commands: [Commands] = []
-        
-    private  let tableView: UITableView = {
+            
+      let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(AllCommandsTableViewCell.self, forCellReuseIdentifier: AllCommandsTableViewCell.identifier)
         //таблица отпускается от верхнего вью
@@ -21,6 +19,7 @@ class AllCommand: UICollectionViewCell {
         return  tableView
     }()
     
+   
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(tableView)
@@ -43,7 +42,13 @@ extension AllCommand: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: AllCommandsTableViewCell.identifier, for: indexPath) as! AllCommandsTableViewCell
-        //cell.commandLabel.text = Commands.
+        for command in AddNewCommandViewController.commands {
+                cell.commandLabel.text = command.commandName
+                cell.teamFirstNameLabel.text = command.teamName
+        }
+        DispatchQueue.main.async {
+            tableView.reloadData()
+        }
         return cell
     }
     

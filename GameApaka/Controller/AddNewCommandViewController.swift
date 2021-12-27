@@ -12,7 +12,7 @@ import CoreData
 
 class AddNewCommandViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
 
-    
+    static var commands: [Commands] = []
     var context: NSManagedObjectContext!
 
     var myCollectionView: UICollectionView?
@@ -30,13 +30,29 @@ class AddNewCommandViewController: UIViewController, UICollectionViewDelegateFlo
         return mb
     }()
     
+    lazy var navBar: UINavigationBar = {
+        let navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50))
+        navBar.backgroundColor = .white
+         self.title = "ggg"
+         return navBar
+     }()
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let context = getContext()
+        let fetchRequest: NSFetchRequest<Commands> = Commands.fetchRequest()
+        do {
+            AddNewCommandViewController.commands = try context.fetch(fetchRequest)
+        } catch let error  as Error {
+            print(error.localizedDescription)
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addSubview(navBar)
+        let navItem = UINavigationItem(title: "SomeTitle")
+        navBar.setItems([navItem], animated: false)
         setupCollectionView()
         setupView()
     }
@@ -60,6 +76,9 @@ class AddNewCommandViewController: UIViewController, UICollectionViewDelegateFlo
         }
         do {
             try context.save()
+            DispatchQueue.main.async {
+                AddNewCommandViewController.commands.append(commandObject)
+            }
         } catch let error  as Error {
             print(error.localizedDescription)
         }

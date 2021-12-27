@@ -10,14 +10,16 @@ import UIKit
 class AllCommandsTableViewCell: UITableViewCell {
     
     static let identifier = "AllCommandsTVCell"
+    
+    var addNewCommandVC: AddNewCommandViewController!
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.layer.cornerRadius = 6
-        contentView.addSubview(commandLabel)
-        contentView.addSubview(teamFirstNameLabel)
+        [commandLabel,teamFirstNameLabel].forEach {contentView.addSubview($0)} 
         contentView.layer.borderWidth = 0.5
         contentView.layer.borderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1).cgColor
+        addNewCommandVC = AddNewCommandViewController()
     }
     
     required init?(coder: NSCoder) {

@@ -20,7 +20,6 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
     }()
     
     //устанавливаем на вью collectionView
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(collectionView)
@@ -40,7 +39,7 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
     
     func setupHorizontalBar() {
         let horizontalBar = UIView()
-        horizontalBar.backgroundColor = UIColor(hex: "#EE8C1A")
+        horizontalBar.backgroundColor = UIColor(hex: "#262019")
         horizontalBar.translatesAutoresizingMaskIntoConstraints = false
         addSubview(horizontalBar)
         
@@ -85,7 +84,7 @@ class MenuCell: UICollectionViewCell {
   
     let label: UILabel = {
         let lb = UILabel(frame: CGRect(x: 0, y: 0, width: 120, height: 50))
-        lb.textColor = UIColor(hex:  "#3F5C70")
+        lb.textColor = UIColor(hex:  "#b0adac")
         lb.textAlignment = .right
         return lb
     }()
@@ -98,12 +97,12 @@ class MenuCell: UICollectionViewCell {
     
     override var isHighlighted : Bool {
         didSet {
-            label.textColor = isHighlighted ?  UIColor(hex: "#EE8C1A") : UIColor(hex:  "#3F5C70")
+            label.textColor = isHighlighted ?  UIColor(hex: "#262019") : UIColor(hex:  "#b0adac")
         }
     }
     override var isSelected : Bool {
         didSet {
-            label.textColor = isSelected ?   UIColor(hex: "#EE8C1A") : UIColor(hex: "#3F5C70")
+            label.textColor = isSelected ?   UIColor(hex: "#262019") : UIColor(hex: "#b0adac")
         }
     }
     
