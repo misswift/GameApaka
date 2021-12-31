@@ -8,10 +8,18 @@
 import UIKit
 import CoreData
 
+protocol AddNewCommandInput{
+    //var output:AddNewCommandOutput { get  }
+}
 
+protocol AddNewCommandOutput{
+    func userCreateCommand(commandName:String, commandTeam: [Commands] )
+}
 
-class AddNewCommandViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-
+class AddNewCommandViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, AddNewCommandInput {
+   // var output: AddNewCommandOutput
+    
+   
     static var commands: [Commands] = []
     var context: NSManagedObjectContext!
 
@@ -50,11 +58,12 @@ class AddNewCommandViewController: UIViewController, UICollectionViewDelegateFlo
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        [navBar, menuBar].forEach {view.addSubview($0)}
         view.addSubview(navBar)
         let navItem = UINavigationItem(title: "SomeTitle")
         navBar.setItems([navItem], animated: false)
         setupCollectionView()
-        setupView()
+        addMenuBarConstraint()
     }
     
     // MARK: - save data in CoreData
@@ -85,8 +94,7 @@ class AddNewCommandViewController: UIViewController, UICollectionViewDelegateFlo
     }
     
     
-    private func setupView () {
-        view.addSubview(menuBar)
+    private func addMenuBarConstraint () {
         menuBar.heightAnchor.constraint(equalToConstant: 50).isActive = true
         menuBar.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         menuBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
